@@ -25,7 +25,7 @@ client.connect_async(broker_address, port=port)
 client.loop_start()
 
 def publish_data(client, status, health_status):
-    batch_data = read_and_batch_data('waveSignals.csv')
+    batch_data = read_and_batch_data('signal-sender/sample_data.csv')
     for batch in batch_data:
         payload = json.dumps({
             "fault_status": status,
