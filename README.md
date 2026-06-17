@@ -1,5 +1,6 @@
 # Signal Sender
-One of the major components of the Virtual Fault Current Limiting (vFCL) System
+**One of the major components of the Virtual Fault Current Limiting (vFCL) System**
+
 Signal Sender is an **IoT edge-device communication module** that sends real-time electrical fault signals from field devices to a web dashboard using the **MQTT publish/subscribe mechanism**.
 
 This project is part of a real-time electrical fault monitoring system. When an electrical fault occurs, the Raspberry Pi reads the device signal through GPIO, prepares a JSON payload, and publishes the fault event to an MQTT broker. The web dashboard can subscribe to the same MQTT topic and display the fault status, device health, timestamp, and waveform data in real time.
