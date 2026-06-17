@@ -1,93 +1,133 @@
-# Signal Sender
-**One of the major components of the Virtual Fault Current Limiting (vFCL) System**
+# ⚡ Signal Sender
 
-Signal Sender is an **IoT edge-device communication module** that sends real-time electrical fault signals from field devices to a web dashboard using the **MQTT publish/subscribe mechanism**.
+### One of the Core Components of the Virtual Fault Current Limiting (VFCL) System
 
-This project is part of a real-time electrical fault monitoring system. When an electrical fault occurs, the Raspberry Pi reads the device signal through GPIO, prepares a JSON payload, and publishes the fault event to an MQTT broker. The web dashboard can subscribe to the same MQTT topic and display the fault status, device health, timestamp, and waveform data in real time.
+Signal Sender is an Industrial IoT edge communication module developed for the **Virtual Fault Current Limiting (VFCL) System**. The module enables real-time transmission of electrical fault events, device telemetry, and waveform data from field devices to a centralized monitoring platform using the MQTT publish-subscribe architecture.
 
----
-
-## What This Project Does
-
-- Detects electrical fault status from a Raspberry Pi GPIO input.
-- Publishes real-time fault status using MQTT.
-- Sends structured JSON payloads to a broker/server.
-- Supports device health monitoring such as `Fault Occurs` or `No Fault Occurs`.
-- Sends waveform/sample signal data from CSV files in batches.
-- Enables a web dashboard to visualize device status and fault events in real time.
+By connecting the operational technology (OT) layer with cloud-connected monitoring applications, Signal Sender provides continuous visibility into electrical network conditions, enabling rapid fault detection, diagnostics, and response.
 
 ---
 
-## System Architecture
+## 🚀 Overview
+
+The Signal Sender module operates on a Raspberry Pi and receives fault indications from an ESP32-based fault detection unit. When an abnormal electrical condition is detected, the Raspberry Pi processes the fault signal, generates structured telemetry data, and publishes the event to an MQTT broker.
+
+Subscribed applications, including web dashboards and monitoring services, receive fault notifications in real time and display system status, health metrics, timestamps, and waveform information.
+
+---
+
+## ✨ Key Features
+
+* ⚡ Real-time electrical fault monitoring
+* 📡 MQTT-based publish-subscribe communication
+* 🖥️ Raspberry Pi edge-device integration
+* 🔌 ESP32-based fault detection interface
+* 📊 Waveform and telemetry transmission
+* 📈 Device health monitoring
+* 🚨 Instant fault notifications
+* ☁️ Edge-to-cloud communication architecture
+* 🔄 Low-latency event propagation
+* 🏭 Industrial IoT monitoring support
+
+---
+
+# 🏗️ System Architecture
 
 ```text
-┌───────────────────────┐
-│   Electrical System   │
-│   Power Line / VFCL   │
-└───────────┬───────────┘
-            │
-            │ Fault Occurs
-            ▼
-┌───────────────────────┐
-│ Fault Detection Unit  │
-│ Sensors / Relay       │
-└───────────┬───────────┘
-            │ GPIO Signal
-            ▼
-┌───────────────────────┐
-│ Raspberry Pi Edge     │
-│ Signal Sender         │
-│                       │
-│ • Reads GPIO status   │
-│ • Processes fault data│
-│ • Creates JSON payload│
-└───────────┬───────────┘
-            │ MQTT Publish
-            ▼
-┌───────────────────────┐
-│ MQTT Broker           │
-│ Publish / Subscribe   │
-└───────────┬───────────┘
-            │ MQTT Subscribe
-            ▼
-┌───────────────────────┐
-│ Web Dashboard         │
-│                       │
-│ • Fault status        │
-│ • Device health       │
-│ • Waveform data       │
-│ • Real-time alerts    │
-└───────────────────────┘
+┌─────────────────────────────┐
+│    Electrical System        │
+│  Power Line / VFCL Network  │
+└─────────────┬───────────────┘
+              │
+              │ Fault Occurs
+              ▼
+┌─────────────────────────────┐
+│ Fault Detection Unit        │
+│ ESP32 Microcontroller       │
+│                             │
+│ • Voltage Monitoring        │
+│ • Current Monitoring        │
+│ • Fault Detection Logic     │
+│ • Signal Acquisition        │
+└─────────────┬───────────────┘
+              │ GPIO Signal
+              ▼
+┌─────────────────────────────┐
+│ Raspberry Pi Edge Device    │
+│ Signal Sender Module        │
+│                             │
+│ • Reads Fault Status        │
+│ • Processes Telemetry Data  │
+│ • Creates JSON Payload      │
+│ • Publishes MQTT Messages   │
+└─────────────┬───────────────┘
+              │ MQTT Publish
+              ▼
+┌─────────────────────────────┐
+│ MQTT Broker                 │
+│ Publish / Subscribe Layer   │
+└─────────────┬───────────────┘
+              │ MQTT Subscribe
+              ▼
+┌─────────────────────────────┐
+│ Web Dashboard               │
+│                             │
+│ • Fault Status Monitoring   │
+│ • Device Health Monitoring  │
+│ • Waveform Visualization    │
+│ • Real-Time Alerts          │
+│ • Historical Event Tracking │
+└─────────────────────────────┘
 ```
 
 ---
 
-## MQTT Data Flow
+# ⚡ Fault Detection Unit – ESP32 Microcontroller
 
-1. Electrical fault occurs in the monitored device/system.
-2. Fault signal is detected through the Raspberry Pi GPIO pin.
-3. Signal Sender reads the GPIO status.
-4. The application creates a JSON payload with fault status and device information.
-5. Payload is published to the configured MQTT topic.
-6. MQTT broker forwards the message to subscribed applications.
-7. Web dashboard receives and displays the real-time fault event.
+The ESP32 Microcontroller serves as the fault sensing and data acquisition layer of the VFCL platform.
+
+The controller continuously monitors electrical parameters such as voltage, current, and protection signals from the VFCL system. When abnormal operating conditions such as overcurrent, short circuits, or transient disturbances are detected, the ESP32 immediately generates a fault indication signal.
+
+The signal is transmitted to the Raspberry Pi through GPIO communication, allowing the Signal Sender module to publish real-time fault information to the MQTT infrastructure.
+
+### Responsibilities
+
+* ⚡ Voltage monitoring
+* ⚡ Current monitoring
+* 📊 Electrical signal acquisition
+* 🚨 Fault detection and event triggering
+* 🔌 GPIO communication
+* 📡 Edge telemetry generation
+* ⏱️ Low-latency fault reporting
 
 ---
 
-## Example MQTT Payload
+# 🔄 MQTT Data Flow
+
+1. ⚡ Electrical fault occurs in the VFCL system.
+2. 📊 ESP32 detects abnormal electrical behavior.
+3. 🚨 Fault trigger signal is generated.
+4. 🔌 Raspberry Pi receives fault status through GPIO.
+5. 📦 Signal Sender creates a JSON telemetry payload.
+6. 📡 Payload is published to the MQTT broker.
+7. ☁️ MQTT broker distributes the message to subscribers.
+8. 🖥️ Web Dashboard displays fault status and system health in real time.
+
+---
+
+# 📄 Example MQTT Payload
 
 ```json
 {
   "fault_status": "ON",
-  "timestamps": "2024-02-21 15:21:00",
-  "device_api": "DEVICE_API_KEY",
-  "topic": "mqttdevice/",
+  "timestamp": "2024-02-21 15:21:00",
   "device_status": "Active",
-  "health_status": "Fault Occurs"
+  "health_status": "Fault Occurs",
+  "topic": "mqttdevice/"
 }
 ```
 
-When no fault is present, the payload changes to:
+### No Fault Condition
 
 ```json
 {
@@ -99,84 +139,59 @@ When no fault is present, the payload changes to:
 
 ---
 
-## Project Files
+# 📂 Project Structure
 
-| File | Description |
-|---|---|
-| `button_program.py` | Reads the Raspberry Pi GPIO button/signal and publishes fault ON/OFF status. |
-| `mqtt_publisher.py` | Handles MQTT client setup and publishes JSON payloads. |
-| `signals_publisher_v_0.1.py` | Sends waveform/sample signal data in batches through MQTT. |
-| `mqttSubscribeClass.py` | MQTT subscriber helper class. |
-| `mqtt_credentials.py` | Stores MQTT broker configuration, topic, username, password, and API key. |
-| `sample_data.csv` | Sample waveform/signal data used for batch transmission. |
-| `waveSignals.csv` | Wave signal dataset. |
-| `file_generator.py` | Utility script for generating files/data. |
-| `Jsongenerate.py` | Utility script for generating JSON data. |
-
----
-
-## Technologies Used
-
-- Python
-- Raspberry Pi GPIO
-- MQTT
-- Eclipse Paho MQTT Client
-- Pandas
-- JSON
-- CSV waveform data
-- IoT edge-device communication
+| File                         | Description                                         |
+| ---------------------------- | --------------------------------------------------- |
+| `button_program.py`          | Reads GPIO fault signals and publishes fault status |
+| `mqtt_publisher.py`          | MQTT client initialization and message publishing   |
+| `signals_publisher_v_0.1.py` | Publishes waveform and signal datasets              |
+| `mqttSubscribeClass.py`      | MQTT subscriber utility                             |
+| `mqtt_credentials.py`        | MQTT configuration and broker settings              |
+| `sample_data.csv`            | Sample signal data                                  |
+| `waveSignals.csv`            | Waveform dataset                                    |
+| `file_generator.py`          | Data generation utility                             |
+| `Jsongenerate.py`            | JSON payload generation utility                     |
 
 ---
 
-## Hardware / Device Layer
+# 🛠️ Technology Stack
 
-The project uses a Raspberry Pi as an edge device. GPIO pin `19` is used to read the fault signal.
+### Software
 
-```python
-button = Button(19)
-```
+* Python
+* MQTT
+* Eclipse Paho MQTT
+* Pandas
+* JSON
+* CSV Processing
 
-The button/signal state represents whether the electrical fault flag is active or inactive.
+### Hardware
 
----
+* Raspberry Pi
+* ESP32 Microcontroller
+* Electrical Fault Detection Circuit
 
-## How It Works
+### Architecture
 
-### Fault ON
-
-When the fault signal is active:
-
-```text
-fault_status = ON
-health_status = Fault Occurs
-```
-
-The data is sent to the MQTT broker and then displayed on the web dashboard.
-
-### Fault OFF
-
-When the fault signal is inactive:
-
-```text
-fault_status = OFF
-health_status = No Fault Occurs
-```
-
-The dashboard receives the updated status in real time.
+* Industrial IoT
+* Edge Computing
+* Publish-Subscribe Communication
+* Real-Time Monitoring Systems
 
 ---
 
-## Setup
+# 🔧 Installation
 
-### 1. Install Dependencies
+### Install Dependencies
 
 ```bash
 pip install paho-mqtt gpiozero pandas
 ```
 
-### 2. Configure MQTT Credentials
+### Configure MQTT Broker
 
-Update `mqtt_credentials.py` with your broker details:
+Update `mqtt_credentials.py`
 
 ```python
 broker_address = "YOUR_BROKER_IP"
@@ -187,13 +202,17 @@ topic = "YOUR_TOPIC"
 API_KEY = "YOUR_DEVICE_API_KEY"
 ```
 
-### 3. Run the Signal Sender
+---
+
+# ▶️ Running the Application
+
+### Start Fault Monitoring
 
 ```bash
 python button_program.py
 ```
 
-To publish waveform batches:
+### Publish Waveform Data
 
 ```bash
 python signals_publisher_v_0.1.py
@@ -201,25 +220,24 @@ python signals_publisher_v_0.1.py
 
 ---
 
-## Use Case
+# 🎯 Applications
 
-This project is useful for:
-
-- Electrical fault monitoring
-- VFCL fault signal transmission
-- Industrial IoT monitoring
-- Real-time device health dashboards
-- Remote fault detection systems
-- MQTT-based telemetry pipelines
+* Smart Grid Monitoring
+* Virtual Fault Current Limiting (VFCL) Systems
+* Industrial Automation
+* Power Distribution Networks
+* Remote Asset Monitoring
+* Predictive Maintenance Platforms
+* Electrical Protection Systems
+* Real-Time Fault Management
 
 ---
 
+# 🔒 Security Best Practices
 
-## Security Note
+Never commit credentials, API keys, usernames, or passwords to source control.
 
-Do not commit real MQTT credentials, API keys, usernames, or passwords to GitHub. Use an `.env` file or environment variables instead.
-
-Example:
+Use environment variables instead:
 
 ```bash
 MQTT_BROKER=your_broker_ip
@@ -231,3 +249,21 @@ DEVICE_API_KEY=your_api_key
 
 ---
 
+# 🚀 Future Enhancements
+
+* AI-based fault prediction
+* Waveform anomaly detection
+* Cloud-based historical analytics
+* Predictive maintenance dashboards
+* Multi-device fleet monitoring
+* AWS IoT Core integration
+* Real-time alerting via Email/SMS
+* Machine Learning-powered fault classification
+
+---
+
+# 📖 Project Summary
+
+Designed and developed an MQTT-based edge communication module for a Virtual Fault Current Limiting (VFCL) System. Implemented Raspberry Pi GPIO-based fault acquisition, real-time telemetry processing, and MQTT message publishing to enable low-latency transmission of electrical fault events, device health metrics, and waveform data to centralized monitoring dashboards.
+
+By AkshayKumar Nayee -  Graduate Research Assistant | Gannon University & Dr.Fong Mak
