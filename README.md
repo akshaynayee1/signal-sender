@@ -213,17 +213,6 @@ This project is useful for:
 
 ---
 
-## Resume Description
-
-**Short version:**
-
-> Built an MQTT-based IoT signal sender that streams real-time electrical fault events from Raspberry Pi edge devices to a web dashboard for fault visualization and device health monitoring.
-
-**Detailed version:**
-
-> Designed and implemented a Raspberry Pi-based IoT signal sender for real-time electrical fault monitoring using MQTT. The system reads fault signals through GPIO, converts device status into JSON payloads, publishes telemetry to an MQTT broker, and enables a web dashboard to display fault status, waveform data, timestamps, and device health in real time.
-
----
 
 ## Security Note
 
